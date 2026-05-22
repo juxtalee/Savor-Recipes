@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Savor — A Recipe Sharing Platform</title>
+  <meta name="description" content="Discover, save, and share beautiful recipes from around the world.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mobile-fixes.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/fill/style.css">
+</head>
+<body>
+
+<!-- ── Navbar ── -->
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">
+      Savor<span class="logo-dot"></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="recipes.html">Recipes</a>
+      <a href="index.html#categories">Categories</a>
+      <a href="index.html#about">About</a>
+    </div>
+    <div class="nav-auth" id="nav-auth">
+      <a href="login.html" class="btn btn-ghost">Sign In</a>
+      <a href="login.html#register" class="btn btn-primary">Get Started</a>
+    </div>
+    <div class="nav-hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="nav-mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="recipes.html">Recipes</a>
+  <a href="index.html#categories">Categories</a>
+  <a href="index.html#about">About</a>
+  <div class="nav-mobile-auth" id="nav-mobile-auth">
+    <a href="login.html" class="btn btn-ghost">Sign In</a>
+    <a href="login.html#register" class="btn btn-primary">Get Started</a>
+  </div>
+</div>
+
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="container" style="display:contents;">
+    <div class="hero-content container" style="padding-left:24px; padding-right:0; max-width:660px;">
+      <span class="hero-eyebrow">Discover · Cook · Share</span>
+      <h1>Food is the language <em>everyone</em> speaks</h1>
+      <p>Explore thousands of recipes from home cooks and chefs around the world. Save your favorites, share your creations, and find inspiration for every meal.</p>
+
+      <div class="hero-search-bar">
+        <i class="ph ph-magnifying-glass"></i>
+        <input type="text" id="hero-search" placeholder="Search recipes, cuisines, ingredients...">
+        <button class="btn btn-primary2" onclick="heroSearch()"><i class="ph ph-magnifying-glass"></i><span class="btn-text"> Search</span></button>
+      </div>
+
+      <div class="hero-actions">
+        <a href="recipes.html" class="btn btn-dark btn-lg">
+          <i class="ph ph-compass"></i> Explore Recipes
+        </a>
+        <a href="login.html#register" class="btn btn-outline btn-lg">
+          <i class="ph ph-plus"></i> Share a Recipe
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-num">1.2K+</span>
+          <span class="stat-label">Recipes</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">8</span>
+          <span class="stat-label">Cuisines</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">500+</span>
+          <span class="stat-label">Home Cooks</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-image-col">
+      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=900&q=85" alt="Beautiful food spread">
+      <div class="hero-image-badge">
+        <div class="badge-icon"><i class="ph ph-star-fill"></i></div>
+        <div class="badge-text">
+          <strong>Featured Today</strong>
+          <span>Chicken Biryani</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Featured Recipes ── -->
+<section class="section" id="featured">
+  <div class="container">
+    <div class="section-header-row fade-in">
+      <div>
+        <span class="eyebrow">Curated picks</span>
+        <h2>Featured Recipes</h2>
+      </div>
+      <a href="recipes.html" class="btn btn-outline">View All <i class="ph ph-arrow-right"></i></a>
+    </div>
+    <div class="featured-grid" id="featured-grid">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ── Categories ── -->
+<section class="section" id="categories" style="background: var(--cream-dark);">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="eyebrow">Browse by type</span>
+      <h2>Recipe Categories</h2>
+      <p>From hearty breakfasts to indulgent desserts, find the perfect dish for any moment.</p>
+    </div>
+    <div class="category-grid fade-in">
+      <div class="category-card" onclick="filterTo('chicken')">
+        <div class="cat-icon"><i class="ph ph-chicken"></i></div>
+        <span class="cat-name">Chicken</span>
+        <span class="cat-count">24 recipes</span>
+      </div>
+      <div class="category-card" onclick="filterTo('beef')">
+        <div class="cat-icon"><i class="ph ph-hamburger"></i></div>
+        <span class="cat-name">Beef</span>
+        <span class="cat-count">18 recipes</span>
+      </div>
+      <div class="category-card" onclick="filterTo('seafood')">
+        <div class="cat-icon"><i class="ph ph-fish"></i></div>
+        <span class="cat-name">Seafood</span>
+        <span class="cat-count">15 recipes</span>
+      </div>
+      <div class="category-card" onclick="filterTo('veg')">
+        <div class="cat-icon"><i class="ph ph-leaf"></i></div>
+        <span class="cat-name">Vegetarian</span>
+        <span class="cat-count">32 recipes</span>
+      </div>
+      <div class="category-card" onclick="goTo('breakfast')">
+        <div class="cat-icon"><i class="ph ph-sun-horizon"></i></div>
+        <span class="cat-name">Breakfast</span>
+        <span class="cat-count">20 recipes</span>
+      </div>
+      <div class="category-card" onclick="goTo('dessert')">
+        <div class="cat-icon"><i class="ph ph-cake"></i></div>
+        <span class="cat-name">Desserts</span>
+        <span class="cat-count">14 recipes</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Popular Cuisines ── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="eyebrow">Around the world</span>
+      <h2>Popular Cuisines</h2>
+      <p>Journey through flavors — from the spice markets of Pakistan to the trattorias of Italy.</p>
+    </div>
+    <div class="cuisines-grid fade-in">
+      <div class="cuisine-card" onclick="filterCuisine('pakistani')">
+        <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&q=80" alt="Pakistani cuisine">
+        <div class="cuisine-overlay">
+          <h3>Pakistani</h3>
+          <span>12 recipes</span>
+        </div>
+      </div>
+      <div class="cuisine-card" onclick="filterCuisine('italian')">
+        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&q=80" alt="Italian cuisine">
+        <div class="cuisine-overlay">
+          <h3>Italian</h3>
+          <span>16 recipes</span>
+        </div>
+      </div>
+      <div class="cuisine-card" onclick="filterCuisine('chinese')">
+        <img src="https://images.unsplash.com/photo-1525755662778-989d0524087e?w=600&q=80" alt="Chinese cuisine">
+        <div class="cuisine-overlay">
+          <h3>Chinese</h3>
+          <span>10 recipes</span>
+        </div>
+      </div>
+      <div class="cuisine-card" onclick="filterCuisine('turkish')">
+        <img src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=600&q=80" alt="Turkish cuisine">
+        <div class="cuisine-overlay">
+          <h3>Turkish</h3>
+          <span>8 recipes</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── About ── -->
+<section class="section about-section" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80" alt="Cooking together" class="fade-in">
+      <div class="about-content fade-in">
+        <span class="eyebrow">Our Story</span>
+        <h2>Built for people who love to cook</h2>
+        <p>Savor was born out of a simple belief — that good food brings people together. We built a platform where passionate home cooks can share family recipes, discover new cuisines, and build a community around the joy of cooking.</p>
+        <div class="about-features">
+          <div class="feature-item">
+            <div class="feature-icon"><i class="ph ph-users"></i></div>
+            <div>
+              <strong>Community Recipes</strong>
+              <p>Share your kitchen creations with a global audience of food lovers.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon"><i class="ph ph-bookmark-simple"></i></div>
+            <div>
+              <strong>Save Your Favorites</strong>
+              <p>Build a personal cookbook from the best recipes you discover.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon"><i class="ph ph-globe-simple"></i></div>
+            <div>
+              <strong>Global Cuisines</strong>
+              <p>Explore authentic dishes from Pakistan, Italy, China, Turkey, and beyond.</p>
+            </div>
+          </div>
+        </div>
+        <a href="login.html#register" class="btn btn-primary btn-lg">
+          <i class="ph ph-rocket-launch"></i> Join the Community
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">Savor<span class="logo-dot"></span></a>
+        <p>A community platform where food lovers discover, save, and share recipes from every corner of the world.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul class="footer-links">
+          <li><a href="recipes.html">All Recipes</a></li>
+          <li><a href="recipes.html?cuisine=pakistani">Pakistani</a></li>
+          <li><a href="recipes.html?cuisine=italian">Italian</a></li>
+          <li><a href="recipes.html?cuisine=chinese">Chinese</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Account</h4>
+        <ul class="footer-links">
+          <li><a href="login.html">Sign In</a></li>
+          <li><a href="login.html#register">Register</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <div class="social-links" style="margin-bottom: 16px;">
+          <a href="#" title="Instagram"><i class="ph ph-instagram-logo"></i></a>
+          <a href="#" title="Twitter"><i class="ph ph-twitter-logo"></i></a>
+          <a href="#" title="Pinterest"><i class="ph ph-pinterest-logo"></i></a>
+          <a href="#" title="YouTube"><i class="ph ph-youtube-logo"></i></a>
+        </div>
+        <p style="font-size: 0.85rem; color: rgba(250,246,240,.5);">Weekly recipes in your inbox</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Savor. All rights reserved.</span>
+      <span>Made with care for food lovers everywhere.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase.js"></script>
+<script src="js/data.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script>
+  // ── Hero Search ──
+  function heroSearch() {
+    const q = document.getElementById("hero-search").value.trim();
+    if (q) window.location.href = `recipes.html?search=${encodeURIComponent(q)}`;
+    else window.location.href = "recipes.html";
+  }
+  document.getElementById("hero-search").addEventListener("keydown", e => {
+    if (e.key === "Enter") heroSearch();
+  });
+  function filterTo(cat) { window.location.href = `recipes.html?category=${cat}`; }
+  function goTo(meal) { window.location.href = `recipes.html?mealType=${meal}`; }
+  function filterCuisine(c) { window.location.href = `recipes.html?cuisine=${c}`; }
+
+  // ── Featured Grid ──
+  async function renderFeatured() {
+    const recipes = await RecipeService.getAll();
+    const featured = recipes.slice(0, 3);
+    const grid = document.getElementById("featured-grid");
+    if (!featured.length) return;
+
+    const main = featured[0];
+    const sides = featured.slice(1, 3);
+
+    const cuisineLabels = {
+      pakistani: "Pakistani", italian: "Italian", chinese: "Chinese",
+      turkish: "Turkish", american: "American", thai: "Thai", french: "French"
+    };
+
+    let html = `
+      <div class="featured-main fade-in" onclick="window.location='recipe.html?id=${main.id}'">
+        <div class="card-image">
+          <img src="${main.image}" alt="${main.title}">
+          <span class="card-badge">${main.mealType}</span>
+          <button class="card-save ${RecipeService.isSaved(main.id) ? 'saved' : ''}"
+            onclick="event.stopPropagation(); handleSave('${main.id}', this)">
+            <i class="ph ${RecipeService.isSaved(main.id) ? 'ph-bookmark-simple-fill' : 'ph-bookmark-simple'}"></i>
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span><i class="ph ph-clock"></i> ${main.cookingTime}</span>
+            <span><i class="ph ph-globe-simple"></i> ${cuisineLabels[main.cuisine] || main.cuisine}</span>
+          </div>
+          <h3 class="card-title">${main.title}</h3>
+          <p class="card-desc">${main.description}</p>
+          <div class="card-footer">
+            <span class="card-cuisine"><i class="ph ph-fork-knife"></i> ${main.category}</span>
+            <span class="btn btn-sm btn-outline">View Recipe <i class="ph ph-arrow-right"></i></span>
+          </div>
+        </div>
+      </div>
+    `;
+
+    sides.forEach(r => {
+      html += `
+        <div class="featured-side fade-in" onclick="window.location='recipe.html?id=${r.id}'">
+          <div class="card-image">
+            <img src="${r.image}" alt="${r.title}">
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <span><i class="ph ph-clock"></i> ${r.cookingTime}</span>
+            </div>
+            <h3 class="card-title">${r.title}</h3>
+            <p class="card-desc">${r.description}</p>
+          </div>
+        </div>
+      `;
+    });
+
+    grid.innerHTML = html;
+    initScrollAnimations();
+  }
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    await renderFeatured();
+    // Update mobile auth area
+    const user = AuthService.getCurrentUser();
+    const mobileAuth = document.getElementById("nav-mobile-auth");
+    if (mobileAuth && user) {
+      mobileAuth.innerHTML = `
+        <a href="dashboard.html" class="btn btn-ghost"><i class="ph ph-user-circle"></i> ${user.name.split(" ")[0]}</a>
+        <button class="btn btn-primary" onclick="AuthService.logout()">Sign Out</button>
+      `;
+    }
+  });
+</script>
+</body>
+</html>

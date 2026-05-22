@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipes — Savor</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mobile-fixes.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/fill/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">Savor<span class="logo-dot"></span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="recipes.html" class="active">Recipes</a>
+      <a href="index.html#categories">Categories</a>
+      <a href="index.html#about">About</a>
+    </div>
+    <div class="nav-auth" id="nav-auth">
+      <a href="login.html" class="btn btn-ghost">Sign In</a>
+      <a href="login.html#register" class="btn btn-primary">Get Started</a>
+    </div>
+    <div class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="nav-mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="recipes.html">Recipes</a>
+  <a href="index.html#categories">Categories</a>
+  <a href="index.html#about">About</a>
+  <div class="nav-mobile-auth" id="nav-mobile-auth">
+    <a href="login.html" class="btn btn-ghost">Sign In</a>
+    <a href="login.html#register" class="btn btn-primary">Get Started</a>
+  </div>
+</div>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <div class="container">
+    <span class="eyebrow">Browse All</span>
+    <h1>Explore Recipes</h1>
+    <p>Find your next favorite dish from our curated collection of authentic recipes.</p>
+    <div class="filter-bar">
+      <i class="ph ph-magnifying-glass" style="color: var(--text-muted); padding-left: 8px;"></i>
+      <input type="text" id="search-input" placeholder="Search recipes, ingredients, cuisines...">
+      <button class="btn btn-primary2" onclick="applyFilters()"><i class="ph ph-magnifying-glass"></i><span class="btn-text"> Search</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- Filters Bar -->
+<div class="filters-section">
+  <div class="container filters-inner">
+    <div class="filter-group">
+      <label>Meal</label>
+      <select id="filter-meal" onchange="applyFilters()">
+        <option value="all">All Meals</option>
+        <option value="breakfast">Breakfast</option>
+        <option value="lunch">Lunch</option>
+        <option value="dinner">Dinner</option>
+        <option value="dessert">Dessert</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Category</label>
+      <select id="filter-category" onchange="applyFilters()">
+        <option value="all">All Categories</option>
+        <option value="chicken">Chicken</option>
+        <option value="beef">Beef</option>
+        <option value="seafood">Seafood</option>
+        <option value="veg">Vegetarian</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Cuisine</label>
+      <select id="filter-cuisine" onchange="applyFilters()">
+        <option value="all">All Cuisines</option>
+        <option value="pakistani">Pakistani</option>
+        <option value="italian">Italian</option>
+        <option value="chinese">Chinese</option>
+        <option value="turkish">Turkish</option>
+        <option value="american">American</option>
+        <option value="thai">Thai</option>
+        <option value="french">French</option>
+      </select>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="clearFilters()" style="margin-left:auto;">
+      <i class="ph ph-x"></i> Clear
+    </button>
+  </div>
+</div>
+
+<!-- Results -->
+<section class="section">
+  <div class="container">
+    <p class="results-count" id="results-count"></p>
+    <div class="recipe-grid" id="recipes-grid">
+      <!-- Injected by JS -->
+    </div>
+    <div class="no-results" id="no-results" style="display:none;">
+      <i class="ph ph-magnifying-glass"></i>
+      <h3>No recipes found</h3>
+      <p>Try adjusting your search or filters to find something delicious.</p>
+      <button class="btn btn-outline" onclick="clearFilters()" style="margin-top:16px;">Clear Filters</button>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+      <a href="index.html" class="nav-logo" style="color: var(--cream);">Savor<span class="logo-dot"></span></a>
+      <span>© 2025 Savor. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase.js"></script>
+<script src="js/data.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script src="js/recipes.js"></script>
+</body>
+</html>

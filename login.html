@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — Savor</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mobile-fixes.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/fill/style.css">
+</head>
+<body>
+
+<div class="auth-page">
+  <!-- Visual Side -->
+  <div class="auth-visual">
+    <img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=900&q=85" alt="Cooking inspiration">
+    <div class="auth-visual-overlay">
+      <div class="nav-logo" style="color: var(--white); margin-bottom: 24px; font-size: 1.8rem;">
+        Savor<span class="logo-dot" style="background:var(--terracotta-light);"></span>
+      </div>
+      <h2>"Cooking is love made visible."</h2>
+      <p>Join thousands of home cooks sharing their favorite recipes and discovering new flavors every day.</p>
+    </div>
+  </div>
+
+  <!-- Form Side -->
+  <div class="auth-form-col">
+    <div class="auth-form-inner">
+      <div class="auth-logo">
+        <a href="index.html" class="nav-logo">Savor<span class="logo-dot"></span></a>
+      </div>
+
+      <div class="auth-tabs">
+        <div class="auth-tab active" id="tab-login" onclick="switchTab('login')">Sign In</div>
+        <div class="auth-tab" id="tab-register" onclick="switchTab('register')">Create Account</div>
+      </div>
+
+      <!-- Login Form -->
+      <form class="auth-form active" id="form-login" onsubmit="handleLogin(event)">
+        <div id="login-message" class="form-message"></div>
+
+        <div class="form-group">
+          <label for="login-email">Email Address</label>
+          <input type="email" id="login-email" class="form-input" placeholder="you@example.com" required>
+          <span class="form-error" id="login-email-error"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" class="form-input" placeholder="Your password" required>
+          <span class="form-error" id="login-password-error"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg" style="width:100%; justify-content:center;">
+          <i class="ph ph-sign-in"></i> Sign In
+        </button>
+
+        <p style="text-align:center; font-size:0.88rem; color:var(--text-muted);">
+          Don't have an account?
+          <span style="color:var(--terracotta); cursor:pointer; font-weight:600;" onclick="switchTab('register')">Create one</span>
+        </p>
+
+        <div style="border-top: 1px solid var(--border-light); padding-top: 16px;">
+          <p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; margin-bottom: 10px;">
+            Quick access — no account needed
+          </p>
+          <button type="button" class="btn btn-ghost" style="width:100%; justify-content:center; border: 1px dashed var(--border);" onclick="fillDemo()">
+            <i class="ph ph-user"></i> Demo User Account
+          </button>
+          <button type="button" class="btn btn-ghost" style="width:100%; justify-content:center; border: 1px dashed var(--gold); color:var(--gold);" onclick="fillAdmin()">
+            <i class="ph ph-shield-check"></i> Admin Account
+          </button>
+        </div>
+      </form>
+
+      <!-- Register Form -->
+      <form class="auth-form" id="form-register" onsubmit="handleRegister(event)">
+        <div id="register-message" class="form-message"></div>
+
+        <div class="form-group">
+          <label for="reg-name">Full Name</label>
+          <input type="text" id="reg-name" class="form-input" placeholder="Your full name" required>
+          <span class="form-error" id="reg-name-error"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-email">Email Address</label>
+          <input type="email" id="reg-email" class="form-input" placeholder="you@example.com" required>
+          <span class="form-error" id="reg-email-error"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-password">Password</label>
+          <input type="password" id="reg-password" class="form-input" placeholder="Min. 6 characters" required>
+          <span class="form-error" id="reg-password-error"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-confirm">Confirm Password</label>
+          <input type="password" id="reg-confirm" class="form-input" placeholder="Repeat your password" required>
+          <span class="form-error" id="reg-confirm-error"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg" style="width:100%; justify-content:center;">
+          <i class="ph ph-user-plus"></i> Create Account
+        </button>
+
+        <p style="text-align:center; font-size:0.88rem; color:var(--text-muted);">
+          Already have an account?
+          <span style="color:var(--terracotta); cursor:pointer; font-weight:600;" onclick="switchTab('login')">Sign in</span>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase.js"></script>
+<script src="js/data.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script>
+  // Redirect if already logged in — admins go to admin panel
+  if (AuthService.isLoggedIn()) { window.location.href = AuthService.isAdmin() ? 'admin.html' : 'dashboard.html'; }
+
+  // Switch between login and register tabs
+  function switchTab(tab) {
+    document.getElementById("tab-login").classList.toggle("active", tab === "login");
+    document.getElementById("tab-register").classList.toggle("active", tab === "register");
+    document.getElementById("form-login").classList.toggle("active", tab === "login");
+    document.getElementById("form-register").classList.toggle("active", tab === "register");
+    clearErrors();
+  }
+
+  // Check hash for register tab
+  if (window.location.hash === "#register") switchTab("register");
+
+  function showError(id, msg) {
+    const el = document.getElementById(id);
+    if (el) { el.textContent = msg; el.classList.add("show"); }
+  }
+  function clearErrors() {
+    document.querySelectorAll(".form-error").forEach(el => { el.textContent = ""; el.classList.remove("show"); });
+    document.querySelectorAll(".form-message").forEach(el => { el.className = "form-message"; el.textContent = ""; });
+  }
+
+  async function handleLogin(e) {
+    e.preventDefault();
+    clearErrors();
+    const email = document.getElementById("login-email").value.trim();
+    const password = document.getElementById("login-password").value;
+    let valid = true;
+
+    if (!email) { showError("login-email-error", "Email is required."); valid = false; }
+    if (!password) { showError("login-password-error", "Password is required."); valid = false; }
+    if (!valid) return;
+
+    const result = await AuthService.login(email, password);
+    const msgEl = document.getElementById("login-message");
+    if (result.success) {
+      msgEl.className = "form-message success";
+      msgEl.textContent = `Welcome back, ${result.user.name}! Redirecting...`;
+      const dest = result.user.role === "admin" ? "admin.html" : "dashboard.html";
+      setTimeout(() => window.location.href = dest, 1000);
+    } else {
+      msgEl.className = "form-message error";
+      msgEl.textContent = result.error;
+    }
+  }
+
+  async function handleRegister(e) {
+    e.preventDefault();
+    clearErrors();
+    const name = document.getElementById("reg-name").value.trim();
+    const email = document.getElementById("reg-email").value.trim();
+    const password = document.getElementById("reg-password").value;
+    const confirm = document.getElementById("reg-confirm").value;
+    let valid = true;
+
+    if (!name || name.length < 2) { showError("reg-name-error", "Name must be at least 2 characters."); valid = false; }
+    if (!email || !/\S+@\S+\.\S+/.test(email)) { showError("reg-email-error", "Enter a valid email."); valid = false; }
+    if (!password || password.length < 6) { showError("reg-password-error", "Password must be at least 6 characters."); valid = false; }
+    if (password !== confirm) { showError("reg-confirm-error", "Passwords do not match."); valid = false; }
+    if (!valid) return;
+
+    const result = await AuthService.register(name, email, password);
+    const msgEl = document.getElementById("register-message");
+    if (result.success) {
+      msgEl.className = "form-message success";
+      msgEl.textContent = `Account created! Welcome, ${result.user.name}! Redirecting...`;
+      setTimeout(() => window.location.href = "dashboard.html", 1000);
+    } else {
+      msgEl.className = "form-message error";
+      msgEl.textContent = result.error;
+    }
+  }
+
+  function fillDemo() {
+    // Create a demo user if not exists
+    const demoEmail = "demo@savor.app";
+    const demoPass = "demo1234";
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    if (!users.find(u => u.email === demoEmail)) {
+      AuthService.register("Demo Chef", demoEmail, demoPass);
+      AuthService.logout(); // Don't actually log in yet
+    }
+    document.getElementById("login-email").value = demoEmail;
+    document.getElementById("login-password").value = demoPass;
+    switchTab("login");
+  }
+
+  function fillAdmin() {
+    document.getElementById("login-email").value = "gamerghost5858@gmail.com";
+    document.getElementById("login-password").value = "Aleeartx@123";
+    switchTab("login");
+  }
+</script>
+</body>
+</html>

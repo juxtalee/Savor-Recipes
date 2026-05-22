@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipe — Savor</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mobile-fixes.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/fill/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">Savor<span class="logo-dot"></span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="recipes.html">Recipes</a>
+      <a href="index.html#categories">Categories</a>
+      <a href="index.html#about">About</a>
+    </div>
+    <div class="nav-auth" id="nav-auth">
+      <a href="login.html" class="btn btn-ghost">Sign In</a>
+      <a href="login.html#register" class="btn btn-primary">Get Started</a>
+    </div>
+    <div class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="nav-mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="recipes.html">Recipes</a>
+  <a href="index.html#categories">Categories</a>
+  <a href="index.html#about">About</a>
+</div>
+
+<!-- Recipe Detail -->
+<div class="recipe-detail">
+  <div class="container">
+    <div id="recipe-content">
+      <div style="text-align: center; padding: 120px 0; color: var(--text-muted);">
+        <i class="ph ph-spinner" style="font-size: 2rem;"></i>
+        <p>Loading recipe...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Related Recipes -->
+<section class="section" style="background: var(--cream-dark);" id="related-section">
+  <div class="container">
+    <div class="section-header-row">
+      <div>
+        <span class="eyebrow">More recipes</span>
+        <h2>You Might Also Like</h2>
+      </div>
+      <a href="recipes.html" class="btn btn-outline">View All</a>
+    </div>
+    <div class="recipe-grid" id="related-grid"></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none; padding-top:0;">
+      <a href="index.html" class="nav-logo" style="color: var(--cream);">Savor<span class="logo-dot"></span></a>
+      <span>© 2025 Savor. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase.js"></script>
+<script src="js/data.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script>
+  const cuisineLabels = {
+    pakistani: "Pakistani", italian: "Italian", chinese: "Chinese",
+    turkish: "Turkish", american: "American", thai: "Thai", french: "French"
+  };
+  const mealLabels = {
+    breakfast: "Breakfast", lunch: "Lunch", dinner: "Dinner", dessert: "Dessert"
+  };
+  const catLabels = {
+    chicken: "Chicken", beef: "Beef", seafood: "Seafood", veg: "Vegetarian"
+  };
+
+  async function renderRecipe() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    const recipe = id ? await RecipeService.getById(id) : null;
+    const container = document.getElementById("recipe-content");
+
+    if (!recipe) {
+      container.innerHTML = `
+        <div style="text-align:center; padding: 120px 0;">
+          <i class="ph ph-warning-circle" style="font-size:3rem; color:var(--parchment); display:block; margin-bottom:16px;"></i>
+          <h2>Recipe Not Found</h2>
+          <p style="color:var(--text-muted); margin-bottom:24px;">The recipe you're looking for doesn't exist or was removed.</p>
+          <a href="recipes.html" class="btn btn-primary">Browse All Recipes</a>
+        </div>`;
+      return;
+    }
+
+    document.title = `${recipe.title} — Savor`;
+    const saved = RecipeService.isSaved(recipe.id);
+
+    container.innerHTML = `
+      <div class="recipe-detail-grid">
+        <!-- Image Column -->
+        <div class="detail-image-col fade-in">
+          <div class="detail-image-wrap">
+            <img src="${recipe.image}" alt="${recipe.title}">
+          </div>
+          <div class="detail-image-meta">
+            <div class="meta-pill">
+              <i class="ph ph-clock"></i>
+              <strong>${recipe.cookingTime}</strong>
+              <span>Cook Time</span>
+            </div>
+            <div class="meta-pill">
+              <i class="ph ph-globe-simple"></i>
+              <strong>${cuisineLabels[recipe.cuisine] || recipe.cuisine}</strong>
+              <span>Cuisine</span>
+            </div>
+            <div class="meta-pill">
+              <i class="ph ph-fork-knife"></i>
+              <strong>${catLabels[recipe.category] || recipe.category}</strong>
+              <span>Category</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detail Column -->
+        <div class="detail-content fade-in">
+          <nav class="breadcrumb">
+            <a href="index.html">Home</a>
+            <i class="ph ph-caret-right"></i>
+            <a href="recipes.html">Recipes</a>
+            <i class="ph ph-caret-right"></i>
+            <span>${recipe.title}</span>
+          </nav>
+
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;">
+            <span class="tag tag-meal">${mealLabels[recipe.mealType] || recipe.mealType}</span>
+            <span class="tag tag-cuisine">${cuisineLabels[recipe.cuisine] || recipe.cuisine}</span>
+          </div>
+
+          <h1 class="detail-title">${recipe.title}</h1>
+          <p class="detail-desc">${recipe.description}</p>
+
+          <div class="detail-actions">
+            <button class="btn btn-primary btn-lg" id="save-btn" onclick="toggleSaveRecipe('${recipe.id}')">
+              <i class="ph ${saved ? 'ph-bookmark-simple-fill' : 'ph-bookmark-simple'}"></i>
+              ${saved ? 'Saved' : 'Save Recipe'}
+            </button>
+            <a href="recipes.html" class="btn btn-outline btn-lg">
+              <i class="ph ph-arrow-left"></i> All Recipes
+            </a>
+          </div>
+
+          <div class="detail-section">
+            <h3><i class="ph ph-list-checks"></i> Ingredients</h3>
+            <ul class="ingredients-list">
+              ${recipe.ingredients.map(ing => `
+                <li class="ingredient-item">
+                  <i class="ph ph-dot-outline"></i>
+                  ${ing}
+                </li>
+              `).join("")}
+            </ul>
+          </div>
+
+          <div class="detail-section">
+            <h3><i class="ph ph-cooking-pot"></i> Instructions</h3>
+            <ol class="steps-list">
+              ${recipe.steps.map((step, i) => `
+                <li class="step-item">
+                  <span class="step-num">${i + 1}</span>
+                  <p class="step-text">${step}</p>
+                </li>
+              `).join("")}
+            </ol>
+          </div>
+        </div>
+      </div>
+    `;
+
+    initScrollAnimations();
+    await renderRelated(recipe);
+  }
+
+  function toggleSaveRecipe(id) {
+    if (!AuthService.isLoggedIn()) {
+      openModal("login-required-modal");
+      return;
+    }
+    const isSaved = RecipeService.toggleSave(id);
+    const btn = document.getElementById("save-btn");
+    const icon = btn.querySelector("i");
+    if (isSaved) {
+      icon.className = "ph ph-bookmark-simple-fill";
+      btn.innerHTML = `<i class="ph ph-bookmark-simple-fill"></i> Saved`;
+      showToast("Recipe saved to your collection!", "success");
+    } else {
+      btn.innerHTML = `<i class="ph ph-bookmark-simple"></i> Save Recipe`;
+      showToast("Removed from saved recipes.", "info");
+    }
+  }
+
+  async function renderRelated(current) {
+    const all = await RecipeService.getAll();
+    const related = all
+      .filter(r => r.id !== current.id && (r.cuisine === current.cuisine || r.category === current.category))
+      .slice(0, 3);
+
+    if (related.length === 0) {
+      document.getElementById("related-section").style.display = "none";
+      return;
+    }
+
+    document.getElementById("related-grid").innerHTML = related.map(r => buildRecipeCard(r)).join("");
+    initScrollAnimations();
+  }
+
+  document.addEventListener("DOMContentLoaded", async () => { await renderRecipe(); });
+</script>
+</body>
+</html>
